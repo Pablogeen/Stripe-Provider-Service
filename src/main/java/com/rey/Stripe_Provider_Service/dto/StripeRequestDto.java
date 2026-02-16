@@ -17,6 +17,7 @@ public class StripeRequestDto {
 
     @NotBlank(message = "Currency is required")
     @Size(min = 3, max = 3, message = "Currency must be a 3-letter ISO code")
-    @Pattern(regexp = "^[A-Z]{3}$", message = "Currency must be uppercase ISO-4217 code")
+    @Pattern(regexp = "^[a-zA-Z]{3}$", message = "Currency must be a 3-letter ISO-4217 code, uppercase or lowercase")
     private String currency;
+
 }
