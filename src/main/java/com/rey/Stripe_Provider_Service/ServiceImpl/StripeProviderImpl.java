@@ -4,6 +4,7 @@ import com.rey.Stripe_Provider_Service.Http.HttpRequest;
 import com.rey.Stripe_Provider_Service.Http.HttpServiceEngine;
 import com.rey.Stripe_Provider_Service.Service.StripeServiceInterface;
 import com.rey.Stripe_Provider_Service.dto.StripeRequestDto;
+import com.rey.Stripe_Provider_Service.dto.StripeResponseDto;
 import com.rey.Stripe_Provider_Service.helper.CreateOrderHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,8 +25,11 @@ public class StripeProviderImpl implements StripeServiceInterface {
         HttpRequest httpRequest = stripeHelper.prepareHttpRequest(requestDto);
         log.info("Prepared httpRequest to make call to Stripe to create Order: {}",httpRequest);
 
-        ResponseEntity<String> stripeResponse = httpServiceEngine.makeHttpCall(httpRequest);
+        ResponseEntity<String> httpResponse = httpServiceEngine.makeHttpCall(httpRequest);
+        log.info("Call made to stripe for response");
 
-        return String.valueOf(stripeResponse);
+        StripeResponseDto response = stripeHelper.toCreateOrderResponse(httpResponse);
+
+        return String.valueOf(response);
     }
 }
