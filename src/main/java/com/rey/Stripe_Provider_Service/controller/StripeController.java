@@ -2,6 +2,7 @@ package com.rey.Stripe_Provider_Service.controller;
 
 import com.rey.Stripe_Provider_Service.Service.StripeServiceInterface;
 import com.rey.Stripe_Provider_Service.dto.StripeRequestDto;
+import com.rey.Stripe_Provider_Service.dto.StripeResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,9 +22,9 @@ public class StripeController {
     private final StripeServiceInterface stripeService;
 
     @PostMapping("create-order/")
-    public ResponseEntity<String> createStripeOrder(@Valid @RequestBody StripeRequestDto requestDto) {
+    public ResponseEntity<StripeResponseDto> createStripeOrder(@Valid @RequestBody StripeRequestDto requestDto) {
         log.info("Request made to create Order: {}", requestDto);
-        String createOrderResponse = stripeService.createStripeOrderRequest(requestDto);
+        StripeResponseDto createOrderResponse = stripeService.createStripeOrderRequest(requestDto);
         log.info("Create Order has been processed successfully: {}",createOrderResponse);
         return new ResponseEntity<>(createOrderResponse, HttpStatus.OK);
 

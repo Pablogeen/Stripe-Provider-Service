@@ -20,7 +20,7 @@ public class StripeProviderImpl implements StripeServiceInterface {
     private final HttpServiceEngine httpServiceEngine;
 
     @Override
-    public String createStripeOrderRequest(StripeRequestDto requestDto) {
+    public StripeResponseDto createStripeOrderRequest(StripeRequestDto requestDto) {
 
         HttpRequest httpRequest = stripeHelper.prepareHttpRequest(requestDto);
         log.info("Prepared httpRequest to make call to Stripe to create Order: {}",httpRequest);
@@ -29,7 +29,8 @@ public class StripeProviderImpl implements StripeServiceInterface {
         log.info("Call made to stripe for response");
 
         StripeResponseDto response = stripeHelper.toCreateOrderResponse(httpResponse);
+        log.info("Handled Stripe response: {}",response);
 
-        return String.valueOf(response);
+        return response;
     }
 }
