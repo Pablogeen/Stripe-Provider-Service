@@ -39,7 +39,7 @@ public class StripeProviderImpl implements StripeServiceInterface {
     }
 
     @Override
-    public String confirmOrderRequest(String orderId, StripeConfirmOrderRequest orderRequest) {
+    public StripeConfirmOrderResponse confirmOrderRequest(String orderId, StripeConfirmOrderRequest orderRequest) {
 
         HttpRequest httpRequest = confirmOrderHelper.prepareHttpRequest(orderId,orderRequest);
         log.info("Prepared httpRequest to confirm order {}",httpRequest);
@@ -50,6 +50,6 @@ public class StripeProviderImpl implements StripeServiceInterface {
         StripeConfirmOrderResponse response = confirmOrderHelper.toCreateConfirmOrderResponse(httpResponse);
         log.info("Handled Confirm Order Response: {}",response);
 
-        return httpResponse.getBody();
+        return response;
     }
 }

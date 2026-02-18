@@ -18,4 +18,12 @@ public class StripeConfirmOrderResponse {
     @JsonProperty("status")
     private String status;
 
+    @Override
+    public String toString() {
+        return "{\n" +
+                "  \"id\": \"" + id + "\",\n" +
+                "  \"status\": \"" + status + "\",\n" +
+                "}";
+    }
+
 }
