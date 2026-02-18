@@ -3,7 +3,7 @@ package com.rey.Stripe_Provider_Service.helper;
 import com.rey.Stripe_Provider_Service.Constants.Constant;
 import com.rey.Stripe_Provider_Service.Constants.ErrorCodeEnum;
 import com.rey.Stripe_Provider_Service.Exception.StripeProviderException;
-import com.rey.Stripe_Provider_Service.Http.HttpRequest;
+import com.rey.Stripe_Provider_Service.http.HttpRequest;
 import com.rey.Stripe_Provider_Service.config.StripeProperties;
 import com.rey.Stripe_Provider_Service.dto.StripeErrorResponse;
 import com.rey.Stripe_Provider_Service.dto.StripeRequestDto;

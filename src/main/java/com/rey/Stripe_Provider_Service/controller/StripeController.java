@@ -1,6 +1,7 @@
 package com.rey.Stripe_Provider_Service.controller;
 
 import com.rey.Stripe_Provider_Service.Service.StripeServiceInterface;
+import com.rey.Stripe_Provider_Service.dto.StripeConfirmOrderRequest;
 import com.rey.Stripe_Provider_Service.dto.StripeRequestDto;
 import com.rey.Stripe_Provider_Service.dto.StripeResponseDto;
 import jakarta.validation.Valid;
@@ -8,10 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/payments/")
@@ -28,6 +26,15 @@ public class StripeController {
         log.info("Create Order has been processed successfully: {}",createOrderResponse);
         return new ResponseEntity<>(createOrderResponse, HttpStatus.OK);
 
+    }
+
+    @PostMapping("{orderId}/confirm-order/")
+    public String confirmOrder(@PathVariable String orderId,
+                                                @RequestBody @Valid StripeConfirmOrderRequest orderRequest){
+        log.info("Request made to confirm Order for orderId: {}", orderId);
+        String confirmOrderResponse = stripeService.confirmOrderRequest(orderId, orderRequest);
+        log.info("Payment have been confirmed: {}",confirmOrderResponse);
+        return confirmOrderResponse;
     }
 
 }
