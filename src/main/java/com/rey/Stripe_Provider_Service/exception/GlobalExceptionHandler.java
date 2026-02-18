@@ -1,6 +1,6 @@
-package com.rey.Stripe_Provider_Service.Exception;
+package com.rey.Stripe_Provider_Service.exception;
 
-import com.rey.Stripe_Provider_Service.Constants.ErrorCodeEnum;
+import com.rey.Stripe_Provider_Service.constants.ErrorCodeEnum;
 import com.rey.Stripe_Provider_Service.dto.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

@@ -1,9 +1,9 @@
-package com.rey.Stripe_Provider_Service.ServiceImpl;
+package com.rey.Stripe_Provider_Service.serviceImpl;
 
 import com.rey.Stripe_Provider_Service.dto.StripeConfirmOrderResponse;
 import com.rey.Stripe_Provider_Service.http.HttpRequest;
 import com.rey.Stripe_Provider_Service.http.HttpServiceEngine;
-import com.rey.Stripe_Provider_Service.Service.StripeServiceInterface;
+import com.rey.Stripe_Provider_Service.service.StripeServiceInterface;
 import com.rey.Stripe_Provider_Service.dto.StripeConfirmOrderRequest;
 import com.rey.Stripe_Provider_Service.dto.StripeRequestDto;
 import com.rey.Stripe_Provider_Service.dto.StripeResponseDto;

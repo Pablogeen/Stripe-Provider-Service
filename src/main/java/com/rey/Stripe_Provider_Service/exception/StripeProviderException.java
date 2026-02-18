@@ -1,4 +1,4 @@
-package com.rey.Stripe_Provider_Service.Exception;
+package com.rey.Stripe_Provider_Service.exception;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

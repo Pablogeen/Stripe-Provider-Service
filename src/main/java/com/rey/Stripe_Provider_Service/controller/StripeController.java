@@ -1,6 +1,6 @@
 package com.rey.Stripe_Provider_Service.controller;
 
-import com.rey.Stripe_Provider_Service.Service.StripeServiceInterface;
+import com.rey.Stripe_Provider_Service.service.StripeServiceInterface;
 import com.rey.Stripe_Provider_Service.dto.StripeConfirmOrderRequest;
 import com.rey.Stripe_Provider_Service.dto.StripeConfirmOrderResponse;
 import com.rey.Stripe_Provider_Service.dto.StripeRequestDto;
