@@ -1,5 +1,6 @@
 package com.rey.Stripe_Provider_Service.ServiceImpl;
 
+import com.rey.Stripe_Provider_Service.dto.StripeConfirmOrderResponse;
 import com.rey.Stripe_Provider_Service.http.HttpRequest;
 import com.rey.Stripe_Provider_Service.http.HttpServiceEngine;
 import com.rey.Stripe_Provider_Service.Service.StripeServiceInterface;
@@ -44,6 +45,10 @@ public class StripeProviderImpl implements StripeServiceInterface {
         log.info("Prepared httpRequest to confirm order {}",httpRequest);
 
         ResponseEntity<String> httpResponse = httpServiceEngine.makeHttpCall(httpRequest);
+        log.info("Call made to stripe to confirm payment");
+
+        StripeConfirmOrderResponse response = confirmOrderHelper.toCreateConfirmOrderResponse(httpResponse);
+        log.info("Handled Confirm Order Response: {}",response);
 
         return httpResponse.getBody();
     }
