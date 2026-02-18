@@ -2,6 +2,7 @@ package com.rey.Stripe_Provider_Service.controller;
 
 import com.rey.Stripe_Provider_Service.Service.StripeServiceInterface;
 import com.rey.Stripe_Provider_Service.dto.StripeConfirmOrderRequest;
+import com.rey.Stripe_Provider_Service.dto.StripeConfirmOrderResponse;
 import com.rey.Stripe_Provider_Service.dto.StripeRequestDto;
 import com.rey.Stripe_Provider_Service.dto.StripeResponseDto;
 import jakarta.validation.Valid;
@@ -29,10 +30,10 @@ public class StripeController {
     }
 
     @PostMapping("{orderId}/confirm-order/")
-    public String confirmOrder(@PathVariable String orderId,
+    public StripeConfirmOrderResponse confirmOrder(@PathVariable String orderId,
                                                 @RequestBody @Valid StripeConfirmOrderRequest orderRequest){
         log.info("Request made to confirm Order for orderId: {}", orderId);
-        String confirmOrderResponse = stripeService.confirmOrderRequest(orderId, orderRequest);
+        StripeConfirmOrderResponse confirmOrderResponse = stripeService.confirmOrderRequest(orderId, orderRequest);
         log.info("Payment have been confirmed: {}",confirmOrderResponse);
         return confirmOrderResponse;
     }
