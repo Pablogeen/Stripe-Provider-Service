@@ -1,4 +1,4 @@
-package com.rey.Stripe_Provider_Service.Http;
+package com.rey.Stripe_Provider_Service.http;
 
 import lombok.Data;
 import org.springframework.http.HttpHeaders;
