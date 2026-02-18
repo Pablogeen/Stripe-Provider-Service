@@ -53,6 +53,7 @@ public class CreateOrderHelper {
     public StripeResponseDto toCreateOrderResponse(ResponseEntity<String> httpResponse) {
         log.info("Preparing response");
 
+        //success cases
         if (httpResponse.getStatusCode().is2xxSuccessful()){
             log.info("Request has been a success");
 
@@ -72,6 +73,7 @@ public class CreateOrderHelper {
 
         }
 
+        //Failure Cases
         if(httpResponse.getStatusCode().is4xxClientError() ||
                                             httpResponse.getStatusCode().is5xxServerError()){
             log.error("Gotten a 4xx or a 5xx error");
@@ -92,10 +94,11 @@ public class CreateOrderHelper {
                 );
         }
 
+        //Retry/Tiemout Cases
         throw new StripeProviderException(
                 ErrorCodeEnum.STRIPE_UNKNOWN_ERROR.getErrorCode(),
                 ErrorCodeEnum.STRIPE_UNKNOWN_ERROR.getErrorMessage(),
-                HttpStatus.INTERNAL_SERVER_ERROR
+                HttpStatus.BAD_GATEWAY
         );
     }
 }
