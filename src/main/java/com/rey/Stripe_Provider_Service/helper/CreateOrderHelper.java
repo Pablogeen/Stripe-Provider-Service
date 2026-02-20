@@ -1,13 +1,12 @@
 package com.rey.Stripe_Provider_Service.helper;
 
-import com.rey.Stripe_Provider_Service.Constants.Constant;
-import com.rey.Stripe_Provider_Service.Constants.ErrorCodeEnum;
-import com.rey.Stripe_Provider_Service.Exception.StripeProviderException;
-import com.rey.Stripe_Provider_Service.http.HttpRequest;
 import com.rey.Stripe_Provider_Service.config.StripeProperties;
-import com.rey.Stripe_Provider_Service.dto.StripeErrorResponse;
+import com.rey.Stripe_Provider_Service.constants.Constant;
+import com.rey.Stripe_Provider_Service.constants.ErrorCodeEnum;
 import com.rey.Stripe_Provider_Service.dto.StripeRequestDto;
 import com.rey.Stripe_Provider_Service.dto.StripeResponseDto;
+import com.rey.Stripe_Provider_Service.exception.StripeProviderException;
+import com.rey.Stripe_Provider_Service.http.HttpRequest;
 import com.rey.Stripe_Provider_Service.util.JsonUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,13 +22,14 @@ public class CreateOrderHelper {
 
     private final StripeProperties stripeProperties;
     private final JsonUtil jsonUtil;
+    private final StripeErrorHandler stripeErrorHandler;
 
     public HttpRequest prepareHttpRequest(StripeRequestDto requestDto) {
 
         String apiKey = stripeProperties.getApiKey();
-        log.info("Api key: {}",apiKey);
+        log.info("Api key: {}", apiKey);
         String createOrderUrl = stripeProperties.getCreateOrderUrl();
-        log.info("Stripe Url: {}",createOrderUrl);
+        log.info("Stripe Url: {}", createOrderUrl);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth(apiKey, "");
@@ -46,7 +46,7 @@ public class CreateOrderHelper {
         httpRequest.setBody(body);
         httpRequest.setUrl(createOrderUrl);
 
-        log.info("Prepared http Request: {}",httpRequest);
+        log.info("Prepared http Request: {}", httpRequest);
         return httpRequest;
     }
 
@@ -54,45 +54,32 @@ public class CreateOrderHelper {
         log.info("Preparing response");
 
         //success cases
-        if (httpResponse.getStatusCode().is2xxSuccessful()){
+        if (httpResponse.getStatusCode().is2xxSuccessful()) {
             log.info("Request has been a success");
 
             StripeResponseDto orderResponse =
-                        jsonUtil.convertJsonStringToJavaObject(httpResponse.getBody(), StripeResponseDto.class);
+                    jsonUtil.convertJsonStringToJavaObject(httpResponse.getBody(), StripeResponseDto.class);
             log.info("Converted jsonString to java object: {}", orderResponse);
 
-            if (orderResponse !=null &&
-                        orderResponse.getId() != null &&
-                                orderResponse.getStatus() != null &&
-                                    orderResponse.getClientSecret() != null){
+            if (orderResponse != null &&
+                    orderResponse.getId() != null &&
+                    orderResponse.getStatus() != null &&
+                    orderResponse.getClientSecret() != null) {
                 log.info("Order created successfully with PAYER_ACTION_REQUIRED status: {}", orderResponse);
                 return orderResponse;
-            }else{
+            } else {
                 log.error("Order creation failed or incomplete details received OrderResponse: {}", orderResponse);
             }
 
         }
 
         //Failure Cases
-        if(httpResponse.getStatusCode().is4xxClientError() ||
-                                            httpResponse.getStatusCode().is5xxServerError()){
-            log.error("Gotten a 4xx or a 5xx error");
-
-            StripeErrorResponse errorResponse =
-                    jsonUtil.convertJsonStringToJavaObject(httpResponse.getBody(), StripeErrorResponse.class);
-            log.info("Converted error string to java object: {}",errorResponse);
-
-                String errorCode = ErrorCodeEnum.STRIPE_SERVICE_UNAVAILABLE.getErrorCode();
-                String errorMessage = errorResponse.getMessage();
-
-                throw new StripeProviderException(
-                        errorCode,
-                        errorMessage,
-                       HttpStatus.valueOf(
-                               httpResponse.getStatusCode().value()
-                       )
-                );
+        if (httpResponse.getStatusCode().is4xxClientError() ||
+                httpResponse.getStatusCode().is5xxServerError()) {
+            stripeErrorHandler.handleStripeError(httpResponse);
+            log.info("Handled Stripe Exception");
         }
+
 
         //Retry/Tiemout Cases
         throw new StripeProviderException(
@@ -100,5 +87,12 @@ public class CreateOrderHelper {
                 ErrorCodeEnum.STRIPE_UNKNOWN_ERROR.getErrorMessage(),
                 HttpStatus.BAD_GATEWAY
         );
+
     }
 }
+
+
+        // In your service/helper class
+
+
+

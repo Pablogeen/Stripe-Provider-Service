@@ -1,4 +1,4 @@
-package com.rey.Stripe_Provider_Service.Constants;
+package com.rey.Stripe_Provider_Service.constants;
 
 import org.springframework.stereotype.Component;
 
@@ -11,4 +11,6 @@ public class Constant {
     public static final String PAYMENT_METHOD = "payment_method";
     public static final String PM_VISA_CARD = "pm_card_visa";
     public static final String RETURN_URL = "return_url";
+
+
 }

@@ -1,4 +1,4 @@
-package com.rey.Stripe_Provider_Service.Service;
+package com.rey.Stripe_Provider_Service.service;
 
 import com.rey.Stripe_Provider_Service.dto.StripeConfirmOrderRequest;
 import com.rey.Stripe_Provider_Service.dto.StripeConfirmOrderResponse;

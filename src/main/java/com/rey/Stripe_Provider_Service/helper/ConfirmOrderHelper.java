@@ -1,10 +1,9 @@
 package com.rey.Stripe_Provider_Service.helper;
 
-import com.rey.Stripe_Provider_Service.Constants.Constant;
-import com.rey.Stripe_Provider_Service.Constants.ErrorCodeEnum;
-import com.rey.Stripe_Provider_Service.Exception.StripeProviderException;
+import com.rey.Stripe_Provider_Service.constants.Constant;
+import com.rey.Stripe_Provider_Service.constants.ErrorCodeEnum;
+import com.rey.Stripe_Provider_Service.exception.StripeProviderException;
 import com.rey.Stripe_Provider_Service.dto.StripeConfirmOrderResponse;
-import com.rey.Stripe_Provider_Service.dto.StripeErrorResponse;
 import com.rey.Stripe_Provider_Service.http.HttpRequest;
 import com.rey.Stripe_Provider_Service.config.StripeProperties;
 import com.rey.Stripe_Provider_Service.dto.StripeConfirmOrderRequest;
@@ -23,6 +22,7 @@ public class ConfirmOrderHelper {
 
     private final StripeProperties stripeProperties;
     private final JsonUtil jsonUtil;
+    private final StripeErrorHandler stripeErrorHandler;
 
 
     public HttpRequest prepareHttpRequest(String orderId, StripeConfirmOrderRequest orderRequest) {
@@ -78,19 +78,8 @@ public class ConfirmOrderHelper {
         if(httpResponse.getStatusCode().is4xxClientError() ||
                 httpResponse.getStatusCode().is5xxServerError()){
             log.error("Gotten a 4xx or a 5xx error");
+            stripeErrorHandler.handleStripeError(httpResponse);
 
-            StripeErrorResponse errorResponse =
-                    jsonUtil.convertJsonStringToJavaObject(httpResponse.getBody(), StripeErrorResponse.class);
-            log.info("Converted error string to java object: {}",errorResponse);
-
-            String errorCode = ErrorCodeEnum.STRIPE_SERVICE_UNAVAILABLE.getErrorCode();
-            String errorMessage = errorResponse.getMessage();
-
-            throw new StripeProviderException(
-                    errorCode,
-                    errorMessage,
-                    HttpStatus.valueOf(
-                            httpResponse.getStatusCode().value()));
         }
 
         //Retry/Tiemout Cases
