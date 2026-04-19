@@ -29,7 +29,7 @@ public class StripeController {
 
     }
 
-    @PostMapping("{orderId}/confirm-order/")
+    @PostMapping("{orderId}/confirm-order")
     public StripeConfirmOrderResponse confirmOrder(@PathVariable String orderId,
                                                 @RequestBody @Valid StripeConfirmOrderRequest orderRequest){
         log.info("Request made to confirm Order for orderId: {}", orderId);
