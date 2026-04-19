@@ -30,12 +30,12 @@ public class StripeController {
     }
 
     @PostMapping("{orderId}/confirm-order")
-    public StripeConfirmOrderResponse confirmOrder(@PathVariable String orderId,
+    public ResponseEntity<StripeConfirmOrderResponse> confirmOrder(@PathVariable String orderId,
                                                 @RequestBody @Valid StripeConfirmOrderRequest orderRequest){
         log.info("Request made to confirm Order for orderId: {}", orderId);
         StripeConfirmOrderResponse confirmOrderResponse = stripeService.confirmOrderRequest(orderId, orderRequest);
         log.info("Payment have been confirmed: {}",confirmOrderResponse);
-        return confirmOrderResponse;
+        return new ResponseEntity<>(confirmOrderResponse, HttpStatus.OK);
     }
 
 }
