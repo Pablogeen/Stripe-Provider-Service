@@ -374,7 +374,7 @@ class ConfirmOrderHelperTest {
                 () -> confirmOrderHelper.toCreateConfirmOrderResponse(httpResponse)
         );
 
-        assertEquals(ErrorCodeEnum.STRIPE_UNKNOWN_ERROR.getErrorCode(), exception.getErrorCode());
+        assertEquals(ErrorCodeEnum.STRIPE_SERVICE_UNAVAILABLE.getErrorCode(), exception.getErrorCode());
         assertEquals(HttpStatus.BAD_GATEWAY, exception.getHttpStatus());
         verifyNoInteractions(stripeErrorHandler);
         verifyNoInteractions(jsonUtil);
@@ -397,4 +397,6 @@ class ConfirmOrderHelperTest {
                 response.getStatusCode() == HttpStatus.BAD_REQUEST
         ));
     }
+
+
 }

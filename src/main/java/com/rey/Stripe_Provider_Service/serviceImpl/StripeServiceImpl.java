@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class StripeProviderImpl implements StripeServiceInterface {
+public class StripeServiceImpl implements StripeServiceInterface {
 
     private final CreateOrderHelper createOrderHelper;
     private final ConfirmOrderHelper confirmOrderHelper;
