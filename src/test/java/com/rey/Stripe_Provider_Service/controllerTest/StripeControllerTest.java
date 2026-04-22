@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(StripeController.class)
-class StripeControllerIntegrationTest {
+class StripeControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
