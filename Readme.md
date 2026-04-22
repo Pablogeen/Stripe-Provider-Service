@@ -1,33 +1,35 @@
 # STRIPE PROVIDER SERVICE
 
 This is a backend application that enable clients to have access to Stripe API's to 
-be able to make payents.
+be able to make payments.
 
 ## What is this?
 Stripe Provider Service is a microservice application with a layered architecture. This microservice
-helps us to interact with Stripe API's. Thus; Create Order and Capture Order. This application not only
-helps us integrate with stripe but provides us with clear, responsive and clean responses from Stripe.
-This microservice fits into large systems which enables payments as a way for exchanging services and goods.
+helps the client interact with Stripe APIs. The client Creates Payment(PaymentIntent) and Confirms Payment(Confirm PaymentIntent)
+This service simplifies Stripe integration by handling request formatting, response mapping, and error handling,
+making it easier to plug into larger systems.
 
 ## Quick Start
 
-Get someone running in < 5 minutes:
-
 ```bash
-# Installation
-npm install
-
-# Configuration
-cp .env.example .env
-# Edit .env with your settings
-
-# Run
-npm start
+#Download and Unzip the folder Stripe-Provider-Service.zip
+cd Stripe-Provider-Service
 ```
 
-Visit http://localhost:3000
+```bash
+# Build the project
+mvn clean install
+```
+
+```bash
+#Run the application
+mvn spring-boot:run
+```
+Access the application on
+ http://localhost:1111
 
 ## Architecture
+Microservice Architecture with Layered design
 
 ### High-Level Overview
 
@@ -35,23 +37,28 @@ Visit http://localhost:3000
 
 ### Key Components
 
-**API Layer** (`src/api/`)
-- Handles HTTP requests
-- Request validation
+**Controller Layer**
+Handles HTTP requests and responses
+Exposes REST endpoints
 
-**Business Logic** (`src/services/`)
-- Core application logic
-- Domain models
-- Business rules
+**Service Layer**
+Contains business logic
+Orchestrates payment workflows
 
-## Development
+**Helper Layer**
+Communicates with Stripe APIs
+Handles external API calls
+
+**DTOs**
+Request and response models
+
 
 ### Prerequisites
 - Java 21+
 - Spring Boot 3.5+
+- Maven
+- Stripe API
 
-
-## Configuration
 
 ### Environment Variables
 
@@ -69,9 +76,13 @@ Visit http://localhost:3000
 Create Order
 
 ```bash
-curl -X POST http://localhost:1111/api/v1/payments/create-order \
-  -H "Content-Type: application/json" \
-  -d '{"amount": 10000, "currency": "USD}'
+curl --request POST \
+  --url http://localhost:1111/api/v1/payments/create-order/ \
+  --header 'content-type: application/json' \
+  --data '{
+  "amount": 10000,
+  "currency": "usd"
+}'
 ```
 
 Response:
@@ -88,9 +99,12 @@ Response:
 Confirm Order
 
 ```bash
-curl -X POST http://localhost:1111/api/v1/payments/{orderId}/confirm-order \
-  -H "Content-Type: application/json" \
-  -d '{"return_url":"https://me&onlyme.com" }'
+curl --request POST \
+  --url http://localhost:1111/api/v1/payments/pi_3TNJyOAb9G6FKXYx0kL2v9pY/confirm-order \
+  --header 'content-type: application/json' \
+  --data '{
+  "return_url": "https://example.com/payment/success"
+}'
 ```
 
 Response:
@@ -100,6 +114,13 @@ Response:
   "status": "SUCCEEDED"
 }
 ```
-## Related Documentation
-- [Architecture Decision Records](./docs/adr/)
+
+## Testing
+You can test endpoints using:
+- curl (examples above)
+- Postman
+- Any HTTP client
+
+
+
 
