@@ -10,4 +10,6 @@ public class StripeConfirmOrderRequest {
     @NotBlank(message = "Return URL is required")
     @URL(message = "Return URL must be a valid URL")
     private String return_url;
+
+    private String idempotencyKey;
 }

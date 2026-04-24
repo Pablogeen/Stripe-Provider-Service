@@ -34,11 +34,14 @@ public class CreateOrderHelper {
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth(apiKey, "");
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.set("Idempotency-Key",requestDto.getIdempotencyKey());
+        log.info("Idemptency-Key {}",requestDto.getIdempotencyKey());
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add(Constant.AMOUNT, String.valueOf(requestDto.getAmount()));
         body.add(Constant.CURRENCY, requestDto.getCurrency());
         body.add(Constant.AUTOMATIC_PAYMENT_METHOD, "true");
+
 
         HttpRequest httpRequest = new HttpRequest();
         httpRequest.setHttpMethod(HttpMethod.POST);
