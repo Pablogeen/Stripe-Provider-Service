@@ -40,6 +40,8 @@ public class ConfirmOrderHelper {
         HttpHeaders headers = new HttpHeaders();
         headers.setBasicAuth(apiKey, "");
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.set("Idempotency-Key", orderRequest.getIdempotencyKey());
+        log.info("Idempotency Key: {}",orderRequest.getIdempotencyKey());
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add(Constant.PAYMENT_METHOD, Constant.PM_VISA_CARD);
